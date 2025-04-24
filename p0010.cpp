@@ -1,24 +1,36 @@
-#include <bits/stdc++.h>
+#include <ios>
+#include <iostream>
+#include <vector>
+
 using namespace std;
 
-int main (int argc, char *argv[]) {
-  vector<int64_t> primes;
-  int64_t n = 2;
-  int64_t ans = 0;
-  while (primes.size() < 2'000'000) {
-    bool is_prime = true;
-    for (auto& num : primes) {
-      if (1LL * num * num > n) break;
-      if (n % num == 0) {
-        is_prime = false;
-        break;
-      }
+#define int long long
+
+void solve() {
+  const int N = 2000000;
+  vector<int> primes;
+  vector<bool> is_composite(N, false);
+  int sum = 0;
+  for (int i = 2; i < N; ++i) {
+    if (!is_composite[i]) {
+      primes.push_back(i);
+      sum += i;
     }
-    if (is_prime) {
-      ans += n;
+    for (int p : primes) {
+      if (1LL * i * p >= N) break;
+      is_composite[i * p] = true;
+      if (i % p == 0) break;
     }
-    n++;
   }
-  cout << ans;
+  cout << sum << '\n';
+}
+
+signed main() {
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+
+  // int t; cin >> t; while (t--)
+  solve();
+
   return 0;
 }
